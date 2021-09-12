@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  web:
+    build: ./app
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./app/:/usr/src/app/
+    ports:
+      - 8000:8000
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=foo
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_DATABASE=django_docker_dev
+      - SQL_USER=django_docker
+      - SQL_PASSWORD=django_docker
+      - SQL_HOST=db
+      - SQL_PORT=5432
+      - DATABASE=postgres
+      # - ./.env.dev
+    depends_on:
+      - db
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=django_docker
+      - POSTGRES_PASSWORD=django_docker
+      - POSTGRES_DB=django_docker_dev
+
+volumes:
+  postgres_data:

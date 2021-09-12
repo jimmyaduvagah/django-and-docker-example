@@ -1,0 +1,8 @@
+.env.*
+goodSource
+learning
+__pycache__
+*.pyc
+env/
+venv/
+db.sqlite3
